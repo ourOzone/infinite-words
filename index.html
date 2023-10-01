@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Matching Game</title>
+    <style>
+ body {
+    
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Changed to min-height to ensure it works even if the content is smaller */
+    margin: 20px; /* Added margin for top and bottom space */
+    background-color: #f2f2f2;
+}
+
+
+        .word-container p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            margin-top: 10px;
+            padding: 8px;
+            width: 80%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Apply the theme colors */
+        .word-container {
+    background-color: #bbd0ff;
+    padding: 15px;
+    border-radius: 16px;
+    text-align: center;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 230px;
+    word-wrap: break-word;
+    white-space: normal;
+    margin:auto;
+    margin-bottom: 16px;
+    
+}
+
+        button {
+            background-color: #b8c0ff;
+        }
+
+        button:hover {
+            background-color: #c8b6ff;
+        }
+
+        .word-container p {
+            color: #333;
+        }
+        </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #333;">무한 학원 영어 단어 시험</h1>
+
+<script>
+    var words = [
+    { korean: "없이", english: "without" },
+    { korean: "안전", english: "safety" },
+    { korean: "증가", english: "increase" },
+    { korean: "어려운", english: "difficult" },
+    { korean: "사고", english: "accident" },
+    { korean: "늘이다", english: "stretch" },
+    { korean: "현명하지 않은", english: "unwise" },
+    { korean: "막다", english: "prevent" },
+    { korean: "운동", english: "exercise" },
+    { korean: "신경 쓰이는", english: "nervous" },
+    { korean: "원인", english: "cause" },
+    { korean: "다양한", english: "various" },
+    { korean: "간단한", english: "simple" },
+    { korean: "건강", english: "health" },
+    { korean: "중독", english: "addiction" },
+    { korean: "문제", english: "problem" },
+    { korean: "깜박임", english: "blink" },
+    { korean: "좀비", english: "zombie" },
+    { korean: "또 다른", english: "another" },
+    { korean: "동안", english: "during" },
+    { korean: "식사", english: "meal" },
+    { korean: "이러한", english: "such" },
+    { korean: "통증", english: "pain" },
+    { korean: "대신에", english: "instead of" },
+];
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var wordListContainer = document.createElement("div");
+        wordListContainer.style.display = "flex";
+        wordListContainer.style.flexWrap = "wrap"; /* Allow items to wrap to the next line */
+        document.body.appendChild(wordListContainer);
+
+        words.forEach(function (word) {
+            var wordContainer = document.createElement("div");
+            wordContainer.className = "word-container";
+
+            var koreanText = document.createElement("p");
+            koreanText.textContent = word.korean;
+            wordContainer.appendChild(koreanText);
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            wordContainer.appendChild(input);
+
+            var resultDiv = document.createElement("div");
+            resultDiv.className = "result";
+            wordContainer.appendChild(resultDiv);
+
+            wordListContainer.appendChild(wordContainer);
+
+            input.addEventListener("input", function () {
+                resultDiv.textContent = "";
+            });
+        });
+
+        var submitButton = document.createElement("button");
+        submitButton.textContent = "전체 제출";
+        document.body.appendChild(submitButton);
+
+        submitButton.addEventListener("click", function () {
+            checkAllWords();
+        });
+
+        function checkAllWords() {
+            words.forEach(function (word, index) {
+                var input = wordListContainer.querySelectorAll("input")[index];
+                var resultDiv = wordListContainer.querySelectorAll(".result")[index];
+
+                var userInput = input.value.toLowerCase();
+
+                if (userInput === word.english.toLowerCase()) {
+                    resultDiv.textContent = "정답입니다!";
+                    resultDiv.style.color = "blue";
+                } else {
+                    resultDiv.textContent = "틀렸습니다. 정답은 " + word.english + "입니다.";
+                    resultDiv.style.color = "red";
+                }
+            });
+        }
+    });
+    
+</script>
+<footer style="text-align: center; margin-bottom: 16px; color: #666; font-size: 14px;">
+    단어 하나를 입력하고 tab을 누르면 다음 단어로 넘어가집니다. Made by 고민재 
+</footer>
+</body>
+</html>
