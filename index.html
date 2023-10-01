@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Matching Game</title>
+    <title>무한학원 단어시험</title>
     <style>
  body {
     
@@ -114,63 +114,84 @@
     { korean: "통증", english: "pain" },
     { korean: "대신에", english: "instead of" },
 ];
-</script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var wordListContainer = document.createElement("div");
-        wordListContainer.style.display = "flex";
-        wordListContainer.style.flexWrap = "wrap"; /* Allow items to wrap to the next line */
-        document.body.appendChild(wordListContainer);
-
-        words.forEach(function (word) {
-            var wordContainer = document.createElement("div");
-            wordContainer.className = "word-container";
-
-            var koreanText = document.createElement("p");
-            koreanText.textContent = word.korean;
-            wordContainer.appendChild(koreanText);
-
-            var input = document.createElement("input");
-            input.setAttribute("type", "text");
-            wordContainer.appendChild(input);
-
-            var resultDiv = document.createElement("div");
-            resultDiv.className = "result";
-            wordContainer.appendChild(resultDiv);
-
-            wordListContainer.appendChild(wordContainer);
-
-            input.addEventListener("input", function () {
-                resultDiv.textContent = "";
-            });
-        });
-
-        var submitButton = document.createElement("button");
-        submitButton.textContent = "전체 제출";
-        document.body.appendChild(submitButton);
-
-        submitButton.addEventListener("click", function () {
-            checkAllWords();
-        });
-
-        function checkAllWords() {
-            words.forEach(function (word, index) {
-                var input = wordListContainer.querySelectorAll("input")[index];
-                var resultDiv = wordListContainer.querySelectorAll(".result")[index];
-
-                var userInput = input.value.toLowerCase();
-
-                if (userInput === word.english.toLowerCase()) {
-                    resultDiv.textContent = "정답입니다!";
-                    resultDiv.style.color = "blue";
-                } else {
-                    resultDiv.textContent = "틀렸습니다. 정답은 " + word.english + "입니다.";
-                    resultDiv.style.color = "red";
-                }
-            });
+function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
         }
-    });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var wordListContainer = document.createElement("div");
+            wordListContainer.style.display = "flex";
+            wordListContainer.style.flexWrap = "wrap";
+            document.body.appendChild(wordListContainer);
+
+            // Shuffle the words array
+            shuffleArray(words);
+
+            words.forEach(function (word) {
+                var wordContainer = document.createElement("div");
+                wordContainer.className = "word-container";
+
+                var koreanText = document.createElement("p");
+                koreanText.textContent = word.korean;
+                wordContainer.appendChild(koreanText);
+
+                var input = document.createElement("input");
+                input.setAttribute("type", "text");
+                wordContainer.appendChild(input);
+
+                var resultDiv = document.createElement("div");
+                resultDiv.className = "result";
+                wordContainer.appendChild(resultDiv);
+
+                wordListContainer.appendChild(wordContainer);
+
+                input.addEventListener("input", function () {
+                    resultDiv.textContent = "";
+                });
+            });
+
+            var submitButton = document.createElement("button");
+            submitButton.textContent = "전체 제출";
+            document.body.appendChild(submitButton);
+
+            var scoreDisplay = document.createElement("div");
+            scoreDisplay.style.textAlign = "center";
+            scoreDisplay.style.marginTop = "20px";
+            scoreDisplay.style.color = "#333";
+            scoreDisplay.style.fontWeight = "bold";
+            scoreDisplay.style.fontSize = "18px";
+            document.body.appendChild(scoreDisplay);
+
+            var score = 0;
+
+            submitButton.addEventListener("click", function () {
+                checkAllWords();
+                scoreDisplay.textContent = "점수: " + score + "/" + words.length;
+            });
+
+            function checkAllWords() {
+                words.forEach(function (word, index) {
+                    var input = wordListContainer.querySelectorAll("input")[index];
+                    var resultDiv = wordListContainer.querySelectorAll(".result")[index];
+
+                    var userInput = input.value.toLowerCase();
+
+                    if (userInput === word.english.toLowerCase()) {
+                        resultDiv.textContent = "정답입니다!";
+                        resultDiv.style.color = "blue";
+                        score++;
+                    } else {
+                        resultDiv.textContent = "틀렸습니다. 정답은 " + word.english + "입니다.";
+                        resultDiv.style.color = "red";
+                    }
+                });
+            }
+        });
+    </script>
     
 </script>
 <footer style="text-align: center; margin-bottom: 16px; color: #666; font-size: 14px;">
